@@ -5,8 +5,10 @@ package Entities;
  */
 public class Group {
     private String group;
+    private String countPeople;
 
-    public Group(String group) {
+    public Group(String group, String countPeople) {
+        this.countPeople = countPeople;
         this.group = group;
     }
 
@@ -21,9 +23,11 @@ public class Group {
     public boolean equals(Object obj) {
         if (obj == this)
             return true;
+        /* obj ��������� �� null */
 
         if(obj == null)
             return false;
+         /* �������������, ��� ������ ����� ��� �� ����� ��� */
 
         if(!(getClass() == obj.getClass()))
             return false;
@@ -40,5 +44,13 @@ public class Group {
     @Override
     public String toString() {
         return group;
+    }
+
+    public String getCountPeople() {
+        return countPeople;
+    }
+
+    public void setCountPeople(String countPeople) {
+        this.countPeople = countPeople;
     }
 }

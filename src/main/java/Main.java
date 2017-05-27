@@ -27,7 +27,7 @@ public class Main extends JFrame{
     static List<ListClasses> listClasses = new ArrayList<ListClasses>();;
     static Map<Timeslot, Element> elem = new HashMap<Timeslot, Element>();
     static List<TempElem> tempElems = new ArrayList<TempElem>();;
-    final static int p = 8, l = 6;
+    final static int p = 8, l = 12;
     private JButton getFile;
     static File file;
 
@@ -67,30 +67,39 @@ public class Main extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 XMLParser.goLoads(groups, flows, file);
-                requirementses.add(new Requirements("Введение в специальность", 0, 13));
-                requirementses.add(new Requirements("Вычисление с использованием пакета MathCad", 0, 4));
-                requirementses.add(new Requirements("Дискретная математика", 0, 13));
-                requirementses.add(new Requirements("Введение в специальность", 1, 13));
-                requirementses.add(new Requirements("Вычисление с использованием пакета MathCad", 2, 2));
-                requirementses.add(new Requirements("Дискретная математика", 1, 13));
+                requirementses.add(new Requirements("Введение в специальность", 0, 13, 0));
+                requirementses.add(new Requirements("Вычисление с использованием пакета MathCad", 0, 4, 0));
+                requirementses.add(new Requirements("Дискретная математика", 0, 13, 0));
+                requirementses.add(new Requirements("Введение в специальность", 1, 13, 0));
+                requirementses.add(new Requirements("Вычисление с использованием пакета MathCad", 2, 2, 0));
+                requirementses.add(new Requirements("Дискретная математика", 1, 13, 0));
 
-                requirementses.add(new Requirements("Информатика", 0, 4));
-                requirementses.add(new Requirements("Программирование", 0, 4));
-                requirementses.add(new Requirements("Языки и парадигмы программирования", 0, 4));
-                requirementses.add(new Requirements("Информатика", 1, 2));
-                requirementses.add(new Requirements("Программирование", 2, 2));
-                requirementses.add(new Requirements("Языки и парадигмы программирования", 2, 2));
+                requirementses.add(new Requirements("Информатика", 0, 4, 0));
+                requirementses.add(new Requirements("Программирование", 0, 4, 0));
+                requirementses.add(new Requirements("Языки и парадигмы программирования", 0, 4, 0));
+                requirementses.add(new Requirements("Информатика", 1, 2, 0));
+                requirementses.add(new Requirements("Программирование", 2, 2, 0));
+                requirementses.add(new Requirements("Языки и парадигмы программирования", 2, 2, 0));
 
-                classroom.add(new Classroom(40, 302));
-                classroom.add(new Classroom(40, 359));
-                classroom.add(new Classroom(40, 285));
-                classroom.add(new Classroom(40, 403));
-                classroom.add(new Classroom(40, 466));
+                requirementses.add(new Requirements("Мировые информационные ресурсы", 0, 13, 1));
+                requirementses.add(new Requirements("Мировые информационные ресурсы", 2, 2, 1));
 
-                classroom.add(new Classroom(24, 303));
-                classroom.add(new Classroom(2, 304));
-                classroom.add(new Classroom(2, 305));
-                classroom.add(new Classroom(2, 306));
+                classroom.add(new Classroom(4, 302, 0, 100));
+                classroom.add(new Classroom(4, 359, 0, 50));
+                classroom.add(new Classroom(4, 285, 0, 80));
+                classroom.add(new Classroom(4, 403, 0, 70));
+                classroom.add(new Classroom(4, 466, 0, 80));
+
+                classroom.add(new Classroom(24, 303, 0, 30));
+                classroom.add(new Classroom(2, 304, 0, 30));
+                classroom.add(new Classroom(2, 305, 0, 30));
+                classroom.add(new Classroom(2, 306, 0, 30));
+
+                classroom.add(new Classroom(4, 102, 1, 90));
+                classroom.add(new Classroom(24, 103, 1, 30));
+                classroom.add(new Classroom(24, 104, 1, 30));
+                classroom.add(new Classroom(24, 105, 1, 30));
+                classroom.add(new Classroom(24, 106, 1, 30));
 
                 SetListClasses.getListClasses(requirementses, groups, classroom, listClasses, flows);
                 sortByS(listClasses);
@@ -166,8 +175,12 @@ public class Main extends JFrame{
 
     private static void doSchedule() {
         double k = 0, t = 0, R = 0;
+        int checkLoad, countInWeek, countInDay;
         for (ListClasses list : listClasses) {
             boolean equals = false;
+            countInDay = 0;
+            countInWeek = 0;
+            checkLoad = 0;
             tempElems.clear();
             List<Element> element = new ArrayList<>();
             Timeslot key;
@@ -176,21 +189,67 @@ public class Main extends JFrame{
                     element.clear();
                     key = new Timeslot(n, i);
                     element.addAll(getElem(key));
-
-                    if (!element.isEmpty()) {
-                        for (Element element1 : element) {
-                            if (thisIsNotThree(element1, listClasses)) {
-                                if (checkEquals(element1, list.getElement())) {
-                                    equals = true;
-                                    tempElems.clear();
-                                    tempElems.add(new TempElem(k, new Element(element1.getTeacher(), element1.getClassroom(), element1.getSubject(), element1.getGroup(), element1.getTypeSubject()), ++i, n));
-                                    break;
+                    /*если тип предмета практика или лаба, то
+                    если нагрузка 2 раза в неделю, то ставим подряд, добавляем во вторую неделю на то же время
+                    если нагрузка 1 раз в неделю, но практика или лаба и каждую неделю, тогда ставим подряд и записываем только в одну неделю
+                    если нагрузка 1 раз в две недеи (не знаю как это показать), тогда один раз будет в одной неделе
+                     а нагрузка 2 раза в неделю - ставим подряд
+                    * */
+                    if (thisIsHalfLoad(list.getElement(), listClasses)) {
+                        checkLoad = 50;
+                    } else {
+                        checkLoad = countLoad(list.getElement(), listClasses);
+                    }
+                    if (element.isEmpty()) {
+                        switch (checkLoad) {
+                            case 3:
+                                countInDay = 1;
+                                countInWeek = 2;
+                                break;
+                            case 2:
+                                if (list.getElement().getTypeSubject() == 0) {
+                                    countInDay = 1;
+                                    countInWeek = 2;
+                                } else {
+                                    countInDay = 2;
+                                    countInWeek = 2;
                                 }
+                                break;
+                            case 1:
+                                if (list.getElement().getTypeSubject() == 0) {
+                                    countInDay = 1;
+                                    countInWeek = 2;
+                                } else {
+                                    countInDay = 2;
+                                    countInWeek = 1;
+                                }
+                                break;
+                            case 50:
+                                countInDay = 1;
+                                countInWeek = 1;
+                                break;
+                        }
+                    } else {
+                        if (element.contains(list.getElement())) {
+                            switch (checkLoad) {
+                                case 3:
+                                    countInDay = 1;
+                                    countInWeek = 2;
+                                    break;
+                                case 2:
+                                    equals = true;
+                                    break;
+                                case 1:
+                                    equals = true;
+                                    break;
+                                case 50:
+                                    equals = true;
+                                    break;
                             }
                         }
                     }
 
-                    if (equals){
+                    if (equals) {
                         break;
                     }
                     for (int h = 0; h < classroom.size(); h++) {
@@ -205,71 +264,71 @@ public class Main extends JFrame{
                         if (k == 0) break;
                         if (k == 1) continue;
 
-                        t = checkAud(null, classroom.get(h), list.getElement());
+                        if (classroom.get(h).getNumberHull() != list.getElement().getClassroom().getNumberHull()) {
+                            continue;
+                        }
+                        t = checkAud(classroom.get(h), list.getElement());
                         if (t == 0) continue;
-//                        if (!element.isEmpty()) {
-//                            for (Element element1 : element) {
-//                                t = checkAud(element1, classroom.get(h), list.getElement());
-//                                if (t == 0) {
-//                                    while (t == 0 && h < classroom.size()) {
-//                                        t = checkAud(element1, classroom.get(h), list.getElement());
-//                                        if (h == classroom.size() - 1 || t != 0) {
-//                                                break;
-//                                        } else {
-//                                            h++;
-//                                        }
-//                                    }
-//                                }
-//                                if (t == 0) break;
-//                            }
-//                        } else {
-//                            t = checkAud(null, classroom.get(h), list.getElement());
-//                            if (t == 0) {
-//                                while (t == 0 && h < classroom.size()) {
-//                                    t = checkAud(null, classroom.get(h), list.getElement());
-//                                    if (h == classroom.size() - 1 || t != 0) {
-//                                        break;
-//                                    } else {
-//                                        h++;
-//                                    }
-//                                }
-//                            }
-//                        }
-                        //if (t == 0) break;
+
                         k = k + t;
-                        t = checkWindowForStudens(n, i, list.getElement());
-                        k = k + t;
-                        t = checkWindowForTeachers(n, i, list.getElement());
-                        k = k + t;
+                        double t1 = checkWindowForStudens(n, i, list.getElement());
+//                        k = k + t;
+                        double t2 = checkWindowForTeachers(n, i, list.getElement());
+//                        if (t1 != t2)
+                        k = k + t1 + t2;
                         t = countClassesForFlow(n, list.getElement().getFlow());
                         k = k + t;
                         tempElems.add(new TempElem(k, new Element(list.getElement().getTeacher(), classroom.get(h), list.getElement().getSubject(), list.getElement().getGroup(), list.getElement().getTypeSubject()), i, n));
                     }
                 }
-                if (equals){
-                    break;
-                }
+                if (equals) break;
             }
             if (equals) {
-                elem.put(new Timeslot(tempElems.get(0).getN(), tempElems.get(0).getI()), tempElems.get(0).getElement());
-                System.out.println(tempElems.get(0).getN() + " " + tempElems.get(0).getI() + " " + tempElems.get(0).getElement().toString());
+                continue;
+//                elem.put(new Timeslot(tempElems.get(0).getN(), tempElems.get(0).getI()), tempElems.get(0).getElement());
+//                System.out.println(tempElems.get(0).getN() + " " + tempElems.get(0).getI() + " " + tempElems.get(0).getElement().toString());
             } else {
                 //здесь находим самый большой R и записываем в element занятие
                 sortByR(tempElems);
                 elem.put(new Timeslot(tempElems.get(0).getN(), tempElems.get(0).getI()), tempElems.get(0).getElement());
-                System.out.println(tempElems.get(0).getN() + " " + tempElems.get(0).getI() + " " + tempElems.get(0).getElement().toString());
+                if (countInWeek == 2) {
+                    elem.put(new Timeslot(tempElems.get(0).getN() + 6, tempElems.get(0).getI()), tempElems.get(0).getElement());
+                    if (countInDay == 2) {
+                        elem.put(new Timeslot(tempElems.get(0).getN(), tempElems.get(0).getI() + 1), tempElems.get(0).getElement());
+                        elem.put(new Timeslot(tempElems.get(0).getN() + 6, tempElems.get(0).getI() + 1), tempElems.get(0).getElement());
+                    }
+                } else {
+                    if (countInDay == 2) {
+                        elem.put(new Timeslot(tempElems.get(0).getN(), tempElems.get(0).getI() + 1), tempElems.get(0).getElement());
+                    }
+                }
+                // System.out.println(tempElems.get(0).getN() + " " + tempElems.get(0).getI() + " " + tempElems.get(0).getElement().toString());
 
             }
         }
     }
-    private static boolean thisIsNotThree(Element element1, List<ListClasses> listClasses) {
+    private static boolean thisIsHalfLoad(Element element1, List<ListClasses> listClasses) {
+
+        for (Load loads : groups) {
+            for (ListClasses listClasses1 : listClasses) {
+                if (loads.getFlow() == listClasses1.getElement().getFlow() && loads.getTeacher() == listClasses1.getElement().getTeacher()
+                        && loads.getSubject() == listClasses1.getElement().getSubject() && loads.getTypeSubject() == listClasses1.getElement().getTypeSubject()) {
+                    if (loads.getLoad() == 0.5) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private static int countLoad(Element element1, List<ListClasses> listClasses) {
         int i = 0;
         for (ListClasses listClasses1 : listClasses) {
             if (listClasses1.getElement().equals(element1)) i++;
         }
-        if (i == 3) return false;
-        else return true;
+        return i;
     }
+
     /*Проверка "перекрытия": если в это же время и этот же день уже заняты
             преподаватель или группа, тогда возвращаем ноль и прекращаем рассматривать эту аудиторию*/
 // добавить возможность не рассматривать остальные аудитории, если вернет 0
@@ -286,44 +345,52 @@ public class Main extends JFrame{
         }
         return 1 * w;
     }
-    private static double checkAud(Element element, Classroom classroom, Element listElement) {
+    private static double checkAud(Classroom classroom, Element listElement) {
         int w = 10;
         double ret = 0;
-        if (element!=null && element.getClassroom().getNumberClassroom() == classroom.getNumberClassroom()) ret = 0;
-        else {
-            if (listElement.getClassroom().getTypeClassroom() == 0) {
-                if (classroom.getTypeClassroom() == 40 || classroom.getTypeClassroom() == 0) {
-                    ret = 1 * w;
-                }
-            } else if (listElement.getClassroom().getTypeClassroom() == 2){
-                if (classroom.getTypeClassroom() == 2 || classroom.getTypeClassroom() == 24) {
-                    ret = 1 * w;
-                }
-            } else if (listElement.getClassroom().getTypeClassroom() == 40){
-                if (classroom.getTypeClassroom() == 40) {
-                    ret = 1 * w;
-                }
-            } else if (listElement.getClassroom().getTypeClassroom() == 24) {
-                if (classroom.getTypeClassroom() == 24) {
-                    ret = 1 * w;
-                }
+        if (listElement.getClassroom().getTypeClassroom() == 0) {
+            if (classroom.getTypeClassroom() == 4 || classroom.getTypeClassroom() == 0) {
+                ret = checkCapacity(classroom, listElement.getFlow()) * w;
             }
-//            if (listElement.getClassroom().getTypeClassroom() == classroom.getTypeClassroom()) { /* по типу совпадают, значит подходит.
-//                                                                                (в element.classroom.typeClassroom хранится
-//                                                                                 рекомендация, какого типа должна быть аудитория)*/
-//                ret = 1 * w;
-//
-//            } else ret = 0;
+        } else if (listElement.getClassroom().getTypeClassroom() == 2) {
+            if (classroom.getTypeClassroom() == 2 || classroom.getTypeClassroom() == 24) {
+                ret = checkCapacity(classroom, listElement.getFlow()) * w;
+            }
+        } else if (listElement.getClassroom().getTypeClassroom() == 4) {
+            if (classroom.getTypeClassroom() == 4) {
+                ret = checkCapacity(classroom, listElement.getFlow()) * w;
+            }
+        } else if (listElement.getClassroom().getTypeClassroom() == 24) {
+            if (classroom.getTypeClassroom() == 24) {
+                ret = checkCapacity(classroom, listElement.getFlow()) * w;
+            }
         }
         return ret;
     }
 
-
-
-    private static boolean checkEquals(Element element1, Element element) {
-        if (element1.equals(element)) return true;
-        else return false;
+    private static double checkCapacity(Classroom classroom, int flow) {
+        int c = getFlowCount(flow);
+        if (classroom.getCapacity() >= c){
+            if (classroom.getCapacity() - c > 20){
+                return 0.6;
+            }else {
+                return 1;
+            }
+        }else {
+            return 0;
+        }
     }
+    private static int getFlowCount(int flow) {
+        int ret = 0;
+        for (Flow fl : flows){
+            if (fl.getNumberFlow() == flow){
+                ret = fl.getCountPeople();
+                break;
+            }
+        }
+        return ret;
+    }
+
 
     private static void printElements() throws IOException {
         writeElementsToFile();
@@ -416,26 +483,10 @@ public class Main extends JFrame{
                         name.setCellValue(element.get(h).getClassroom().getNumberClassroom());
                         name = row.createCell(q+3);
                         name.setCellValue(element.get(h).getTeacher());
-//                        for (int f = 0; f < 4; f++) {
-//                            name = row.createCell(j+f);
-//                            name.setCellValue(element.get(h).toString());
-//                        }
                         g++;
                     }
                     q = q + 4;
                 }
-//                Cell name = row.createCell(j);
-//                System.out.println(elements[i][j]);
-//                if (elements[i][j] == null){
-//                    s = "null";
-//                    name.setCellValue(s);
-//                }
-//                else{
-//                    s = elements[i][j].toString();
-//                    name.setCellValue(s);
-//                }
-
-
             }
         }
         book.write(new FileOutputStream(file));
@@ -531,6 +582,7 @@ public class Main extends JFrame{
     private static double checkWindowForTeachers(int nn, int ii, Element element) {
         int w = 2;
         double k = 0;
+        boolean hull = false;
         Element el = null;
         Timeslot key;
         for (int i = 0; i < p; i++) {
@@ -538,6 +590,9 @@ public class Main extends JFrame{
             if (elem.containsKey(key)) el = elem.get(key);
             if (el != null) {
                 if (!el.equals(element)) {
+                    if (el.getClassroom().getNumberHull() == element.getClassroom().getNumberHull()) {
+                        hull = false;
+                    } else hull = true;
                     if (el.getTeacher().equals(element.getTeacher())) {
                         if (ii > i && ii - i > 1 || ii < i && i - ii > 1) {
                             k = 2; // окно в 2 и более пары
@@ -547,19 +602,29 @@ public class Main extends JFrame{
                     }
                 }
             }
-            if (k > 1) {
-                k = 0;
-                break;
+            if (!hull) {
+                if (k > 1) {
+                    k = 0;
+                    break;
+                }
+            } else {
+                if (k == 0) break;
             }
         }
-        if (k == 1) k = 0.5;
-        else k = 1;
+        if (!hull) {
+            if (k > 1) k = 0;
+            else if (k == 1) k = 0.5;
+            else k = 1;
+        } else {
+            if (k == 2) k = 0.2;
+        }
         return k * w;
     }
 
     private static double checkWindowForStudens(int nn, int ii, Element element) {
         int w = 2;
         double k = 0;
+        boolean hull = false;
         Element el = null;
         List<Group> elFlow = new ArrayList<>();
         List<Group> elementFlow = new ArrayList<>();
@@ -581,6 +646,9 @@ public class Main extends JFrame{
                     //двух пар окно - тогда возвращаем значение, как 0
                     for (int l = 0; l < elFlow.size(); l++) {
                         for (int f = 0; f < elementFlow.size(); f++) {
+                            if (el.getClassroom().getNumberHull() == element.getClassroom().getNumberHull()) {
+                                hull = false;
+                            } else hull = true;
                             if (elementFlow.get(f).getGroup().equals(elFlow.get(l).getGroup())) {
                                 if (ii > i && ii - i > 1 || ii < i && i - ii > 1) {
                                     k = 2; // окно в 2 и более пары
@@ -592,16 +660,25 @@ public class Main extends JFrame{
                     }
                 }
             }
-            if (k > 1) {
-                k = 0;
-                break;
+            if (!hull) {
+                if (k > 1) {
+                    k = 0;
+                    break;
+                }
+            } else {
+                if (k == 0) break;
             }
         }
-        if (k == 1) k = 0.5;
-        else k = 1;
+        if (!hull) {
+            if (k > 1) k = 0;
+            else if (k == 1) k = 0.5;
+            else k = 1;
+        } else {
+            if (k == 2) k = 0.2;
+
+        }
         return k * w;
     }
-
     private static void sortByS(List<ListClasses> listClasses) {
         for (int i = listClasses.size() - 1; i >= 0; i--) {
             for (int j = 0; j < i; j++) {

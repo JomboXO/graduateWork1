@@ -17,7 +17,7 @@ public class SetListClasses {
             String teacher = groups.get(i).getTeacher();
             int typeSubject = groups.get(i).getTypeSubject();
             int requirements = 0;
-            int reqType = 0;
+            int reqHull = 0;
             int reqTypeClass = 0;
             int flow = groups.get(i).getFlow();
 
@@ -25,37 +25,29 @@ public class SetListClasses {
                 if (requirementses.get(j).getSubject().equals(subject)) { //если в ограничениях есть такой предмет
                     if (requirementses.get(j).getTypeSubject() == typeSubject) { //если тип его совпадает
                         requirements = requirementses.get(j).getRequirment(); //тогда узнаем какие ограничения есть на аудиторию
-                        reqType = requirementses.get(j).getTypeSubject(); //и какого типа она должна быть
+                        /*это не обязательно теперь*/ //reqType = requirementses.get(j).getTypeSubject(); //и какого типа она должна быть
+                        reqHull = requirementses.get(j).getNumberHull(); //и в каком корпусе должна быть
                         break;
                     }
-
                 }
-
             }
-            if (requirements == 13) {
-                if (reqType == 0) {
-                    reqTypeClass = 0; //оставляем тип лекция
-                }
-                if (reqType == 1 || reqType == 2) {
-                    reqTypeClass = 2; //сюда надо записать любой практический класс, зависит от кол-ва людей в группе практики
-                }
-            } else if (requirements == 4) {
-                if (reqType == 0) {
-                    reqTypeClass = 40; //лекционная аудитория с проектором
-                }
-                if (reqType == 1 || reqType == 2) {
-                    reqTypeClass = 24; //комп. класс с проектором, или любой практический класс с проектором
-                }
-            } else if (requirements == 2) {
+            if (requirements == 13) { //если 13, то никаких ограничений
+                reqTypeClass = 0;
+            } else if (requirements == 4) { // 4 - нужен проектор
+                reqTypeClass = 4;
+            } else if (requirements == 2) { // 2 - нужен компьютерный класс
                 reqTypeClass = 2; //компьютерный класс
+            } else if (requirements == 24) {
+                //нужен комп. класс с проектором
+                reqTypeClass = 24;
             }
 
             Element sch;
             double load = groups.get(i).getLoad();
             if (load == 0.5) load = 1;
             for (int k = 0; k < load; k++) {
-                sch = new Element(teacher, (new Classroom(reqTypeClass)), subject, flow, typeSubject);
-                double a = getClassrooms(requirements, reqType, classroom);
+                sch = new Element(teacher, (new Classroom(reqTypeClass, reqHull)), subject, flow, typeSubject);
+                double a = getClassrooms(requirements, reqHull, classroom);
                 double p = getTeachersLoad(teacher, groups);
                 double g = getStudientsLoad(flow, groups, flows);
                 double S = getS(a, p, g);
@@ -117,36 +109,54 @@ public class SetListClasses {
         return t;
     }
 
-    private static float getClassrooms(int requirements, int reqType, List<Classroom> classroom) {
+    private static float getClassrooms(int requirements, int reqHull, List<Classroom> classroom) {
         int k = 0;
         for (int i = 0; i < classroom.size(); i++) {
-            if (requirements == 13 && reqType == 0) { //лекция без ограничений
-                if (classroom.get(i).getTypeClassroom() == 40 || classroom.get(i).getTypeClassroom() == 0) { //просто лекционная, или лекционная с проектором
-                    k++;
-                }
-            } else if ((requirements == 13 && (reqType == 1 || reqType == 2))) {
-                if (classroom.get(i).getTypeClassroom() == 2 || classroom.get(i).getTypeClassroom() == 24) {
-                    k++; //просто комп.класс или комп.класс с проектором
-                }
-            } else {
-                if (requirements == 4 && reqType == 0) {
-                    if (classroom.get(i).getTypeClassroom() == 40) { //лекционная с проектором
+            if (classroom.get(i).getNumberHull() == reqHull) {
+                if (requirements == 13) { //лекция без ограничений
+                    if (classroom.get(i).getTypeClassroom() == 4 || classroom.get(i).getTypeClassroom() == 0) { //берем обычные или с проектором
                         k++;
                     }
-                } else if (requirements == 4 && (reqType == 1 || reqType == 2)) { //то ищем аудитории с проектором, в которых может проводиться практика или лаба
-
-
-                } else if (requirements == 2 && reqType == 0) { //если лекция должна быть в комп. классе
-                    if (classroom.get(i).getTypeClassroom() == 2 || classroom.get(i).getTypeClassroom() == 24) {
-                        k++; //просто комп.класс или комп.класс с проектором
-                    }
-                } else if (requirements == 2 && (reqType == 1 || reqType == 2)) {
-                    if (classroom.get(i).getTypeClassroom() == 2 || classroom.get(i).getTypeClassroom() == 24) {
-                        k++; //просто комп.класс или комп.класс с проектором
+                }
+//                else if ((requirements == 13 && (reqType == 1 || reqType == 2))) {
+//                    if (classroom.get(i).getTypeClassroom() == 2 || classroom.get(i).getTypeClassroom() == 24) {
+//                        k++; //просто комп.класс или комп.класс с проектором
+//                    }
+//                }
+                if (requirements == 4){
+                    if (classroom.get(i).getTypeClassroom() == 4) { //лекционная с проектором
+                        k++;
                     }
                 }
-            }
+                if (requirements == 24){
+                    if (classroom.get(i).getTypeClassroom() == 24) { //computer class с проектором
+                        k++;
+                    }
+                }
+                if (requirements == 2){
+                    if (classroom.get(i).getTypeClassroom() == 2 || classroom.get(i).getTypeClassroom() == 24) { //computer class
+                        k++;
+                    }
+                }
+                /*else {
+                    if (requirements == 4) {
+                        if (classroom.get(i).getTypeClassroom() == 4) { //лекционная с проектором
+                            k++;
+                        }
+                    } else if (requirements == 4 && (reqType == 1 || reqType == 2)) { //то ищем аудитории с проектором, в которых может проводиться практика или лаба
 
+
+                    } else if (requirements == 2 && reqType == 0) { //если лекция должна быть в комп. классе
+                        if (classroom.get(i).getTypeClassroom() == 2 || classroom.get(i).getTypeClassroom() == 24) {
+                            k++; //просто комп.класс или комп.класс с проектором
+                        }
+                    } else if (requirements == 2 && (reqType == 1 || reqType == 2)) {
+                        if (classroom.get(i).getTypeClassroom() == 2 || classroom.get(i).getTypeClassroom() == 24) {
+                            k++; //просто комп.класс или комп.класс с проектором
+                        }
+                    }
+                }*/
+            }
         }
         return k;
     }

@@ -8,10 +8,12 @@ import java.util.List;
 public class Flow {
     private int numberFlow;
     private List<Group> groupList;
+    private int countPeople;
 
-    public Flow(int numberFlow, List<Group> groupList) {
+    public Flow(int numberFlow, List<Group> groupList, int countPeople) {
         this.numberFlow = numberFlow;
         this.groupList = groupList;
+        this.countPeople = countPeople;
     }
 
     public int getNumberFlow() {
@@ -35,13 +37,14 @@ public class Flow {
         if (obj == this)
             return true;
 
-        if (obj == null)
+        if(obj == null)
             return false;
 
-        if (!(getClass() == obj.getClass()))
+        if(!(getClass() == obj.getClass()))
             return false;
-        else {
-            Flow tmp = (Flow) obj;
+        else
+        {
+            Flow tmp = (Flow)obj;
             if (tmp.groupList.containsAll(this.groupList) && tmp.groupList.size() == this.groupList.size())
                 return true;
             else
@@ -49,4 +52,11 @@ public class Flow {
         }
     }
 
+    public int getCountPeople() {
+        return countPeople;
+    }
+
+    public void setCountPeople(int countPeople) {
+        this.countPeople = countPeople;
+    }
 }
