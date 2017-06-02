@@ -24,34 +24,44 @@ public class Main extends JFrame{
     private static List<Flow> flows = new ArrayList<>();;
     private static List<Requirements> requirementses = new ArrayList<Requirements>();;
     private static List<Classroom> classroom = new ArrayList<Classroom>();;
-    static List<ListClasses> listClasses = new ArrayList<ListClasses>();;
-    static Map<Timeslot, Element> elem = new HashMap<Timeslot, Element>();
-    static List<TempElem> tempElems = new ArrayList<TempElem>();;
-    final static int p = 8, l = 12;
+    private static List<Element> Elements = new ArrayList<Element>();;
+    private static Map<Timeslot, Element> elem = new HashMap<Timeslot, Element>();
+    private static List<TempElem> tempElems = new ArrayList<TempElem>();;
+    private final static int p = 8, l = 12;
     private JButton getFile;
-    static File file;
-
+    private static File file;
+    private static double R = 0;
+    JButton button1;
 
     public Main(){
-        super("My First Window"); //Заголовок окна
+        super("Schedule"); //Заголовок окна
         setBounds(100, 100, 200, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         panel.add(Box.createVerticalGlue());
 
-        final JLabel label = new JLabel("Выбранный файл");
+        final JLabel label = new JLabel("Выберите файл с нагрузкой:");
         label.setAlignmentX(CENTER_ALIGNMENT);
-        panel.add(label);
+        final JLabel label1 = new JLabel();
+        label1.setAlignmentX(CENTER_ALIGNMENT);
+        final JLabel lbl = new JLabel("\n");
+        final JLabel lbl1 = new JLabel("\n");
+        final JLabel lbl2 = new JLabel("\n");
+        lbl.setAlignmentX(CENTER_ALIGNMENT);
+        lbl1.setAlignmentX(CENTER_ALIGNMENT);
+        lbl2.setAlignmentX(CENTER_ALIGNMENT);
 
         panel.add(Box.createRigidArea(new Dimension(10, 10)));
 
-        JButton button = new JButton("Показать JFileChooser");
+        JButton button = new JButton("Выбрать файл '*.xml'");
         button.setAlignmentX(CENTER_ALIGNMENT);
-        JButton button1 = new JButton("Get schedule");
+        button1 = new JButton("Составить расписание");
         button1.setAlignmentX(CENTER_ALIGNMENT);
+        button1.setEnabled(false);
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -60,66 +70,91 @@ public class Main extends JFrame{
                 if (ret == JFileChooser.APPROVE_OPTION) {
                     file = fileopen.getSelectedFile();
                     label.setText(file.getName());
+                    button1.setEnabled(true);
                 }
             }
+
         });
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 XMLParser.goLoads(groups, flows, file);
-                requirementses.add(new Requirements("Введение в специальность", 0, 13, 0));
-                requirementses.add(new Requirements("Вычисление с использованием пакета MathCad", 0, 4, 0));
-                requirementses.add(new Requirements("Дискретная математика", 0, 13, 0));
-                requirementses.add(new Requirements("Введение в специальность", 1, 13, 0));
-                requirementses.add(new Requirements("Вычисление с использованием пакета MathCad", 2, 2, 0));
-                requirementses.add(new Requirements("Дискретная математика", 1, 13, 0));
+                requirementses.add(new Requirements("Введение в специальность", TypeSubject.LECTURE, TypeClassroom.ORDINARY_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Вычисление с использованием пакета MathCad", TypeSubject.LECTURE, TypeClassroom.CLASS_WITH_PROJECTOR, Hull.KRONWERK));
+                requirementses.add(new Requirements("Дискретная математика", TypeSubject.LECTURE, TypeClassroom.ORDINARY_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Введение в специальность", TypeSubject.PRACTICE, TypeClassroom.ORDINARY_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Вычисление с использованием пакета MathCad", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Дискретная математика", TypeSubject.PRACTICE, TypeClassroom.ORDINARY_CLASS, Hull.KRONWERK));
 
-                requirementses.add(new Requirements("Информатика", 0, 4, 0));
-                requirementses.add(new Requirements("Программирование", 0, 4, 0));
-                requirementses.add(new Requirements("Языки и парадигмы программирования", 0, 4, 0));
-                requirementses.add(new Requirements("Информатика", 1, 2, 0));
-                requirementses.add(new Requirements("Программирование", 2, 2, 0));
-                requirementses.add(new Requirements("Языки и парадигмы программирования", 2, 2, 0));
+                requirementses.add(new Requirements("Информатика", TypeSubject.LECTURE, TypeClassroom.CLASS_WITH_PROJECTOR, Hull.KRONWERK));
+                requirementses.add(new Requirements("Программирование", TypeSubject.LECTURE, TypeClassroom.CLASS_WITH_PROJECTOR, Hull.KRONWERK));
+                requirementses.add(new Requirements("Языки и парадигмы программирования", TypeSubject.LECTURE, TypeClassroom.CLASS_WITH_PROJECTOR, Hull.KRONWERK));
+                requirementses.add(new Requirements("Информатика", TypeSubject.PRACTICE, TypeClassroom.COMPUTER_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Программирование", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Языки и парадигмы программирования", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.KRONWERK));
 
-                requirementses.add(new Requirements("Мировые информационные ресурсы", 0, 13, 1));
-                requirementses.add(new Requirements("Мировые информационные ресурсы", 2, 2, 1));
+                requirementses.add(new Requirements("Мировые информационные ресурсы", TypeSubject.LECTURE, TypeClassroom.ORDINARY_CLASS, Hull.LOMONOSOV));
+                requirementses.add(new Requirements("Мировые информационные ресурсы", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.LOMONOSOV));
 
-                classroom.add(new Classroom(4, 302, 0, 100));
-                classroom.add(new Classroom(4, 359, 0, 50));
-                classroom.add(new Classroom(4, 285, 0, 80));
-                classroom.add(new Classroom(4, 403, 0, 70));
-                classroom.add(new Classroom(4, 466, 0, 80));
+                requirementses.add(new Requirements("Вычислительная математика", TypeSubject.LECTURE, TypeClassroom.ORDINARY_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Вычислительная математика", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Дискретная математика", TypeSubject.LAB, TypeClassroom.ORDINARY_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Системное программное обеспечение", TypeSubject.LECTURE, TypeClassroom.CLASS_WITH_PROJECTOR, Hull.KRONWERK));
+                requirementses.add(new Requirements("Системное программное обеспечение", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Языки системного программирования", TypeSubject.LECTURE, TypeClassroom.CLASS_WITH_PROJECTOR, Hull.KRONWERK));
+                requirementses.add(new Requirements("Языки системного программирования", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Операционные системы", TypeSubject.LECTURE, TypeClassroom.ORDINARY_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Операционные системы", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Проектирование человеко-машинного интерфейса", TypeSubject.LECTURE, TypeClassroom.CLASS_WITH_PROJECTOR, Hull.KRONWERK));
+                requirementses.add(new Requirements("Проектирование человеко-машинного интерфейса", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Интеллектуальные системы и технологии", TypeSubject.LECTURE, TypeClassroom.CLASS_WITH_PROJECTOR, Hull.LOMONOSOV));
+                requirementses.add(new Requirements("Интеллектуальные системы и технологии", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.LOMONOSOV));
+                requirementses.add(new Requirements("Технологии программирования", TypeSubject.LECTURE, TypeClassroom.ORDINARY_CLASS, Hull.KRONWERK));
+                requirementses.add(new Requirements("Технологии программирования", TypeSubject.LAB, TypeClassroom.COMPUTER_CLASS, Hull.KRONWERK));
 
-                classroom.add(new Classroom(24, 303, 0, 30));
-                classroom.add(new Classroom(2, 304, 0, 30));
-                classroom.add(new Classroom(2, 305, 0, 30));
-                classroom.add(new Classroom(2, 306, 0, 30));
+                classroom.add(new Classroom(TypeClassroom.CLASS_WITH_PROJECTOR, 302, Hull.KRONWERK, 100));
+                classroom.add(new Classroom(TypeClassroom.CLASS_WITH_PROJECTOR, 359, Hull.KRONWERK, 50));
+                classroom.add(new Classroom(TypeClassroom.CLASS_WITH_PROJECTOR, 285, Hull.KRONWERK, 80));
+                classroom.add(new Classroom(TypeClassroom.CLASS_WITH_PROJECTOR, 403, Hull.KRONWERK, 70));
+                classroom.add(new Classroom(TypeClassroom.CLASS_WITH_PROJECTOR, 466, Hull.KRONWERK, 80));
 
-                classroom.add(new Classroom(4, 102, 1, 90));
-                classroom.add(new Classroom(24, 103, 1, 30));
-                classroom.add(new Classroom(24, 104, 1, 30));
-                classroom.add(new Classroom(24, 105, 1, 30));
-                classroom.add(new Classroom(24, 106, 1, 30));
+                classroom.add(new Classroom(TypeClassroom.COMPUTER_CLASS_WITH_PROJECTOR, 303, Hull.KRONWERK, 30));
+                classroom.add(new Classroom(TypeClassroom.COMPUTER_CLASS, 304, Hull.KRONWERK, 30));
+                classroom.add(new Classroom(TypeClassroom.COMPUTER_CLASS, 305, Hull.KRONWERK, 30));
+                classroom.add(new Classroom(TypeClassroom.COMPUTER_CLASS, 306, Hull.KRONWERK, 30));
 
-                SetListClasses.getListClasses(requirementses, groups, classroom, listClasses, flows);
-                sortByS(listClasses);
+                classroom.add(new Classroom(TypeClassroom.CLASS_WITH_PROJECTOR, 102, Hull.LOMONOSOV, 90));
+                classroom.add(new Classroom(TypeClassroom.COMPUTER_CLASS_WITH_PROJECTOR, 103, Hull.LOMONOSOV, 30));
+                classroom.add(new Classroom(TypeClassroom.COMPUTER_CLASS_WITH_PROJECTOR, 104, Hull.LOMONOSOV, 30));
+                classroom.add(new Classroom(TypeClassroom.COMPUTER_CLASS_WITH_PROJECTOR, 105, Hull.LOMONOSOV, 30));
+                classroom.add(new Classroom(TypeClassroom.COMPUTER_CLASS_WITH_PROJECTOR, 106, Hull.LOMONOSOV, 30));
+
+
+                SetListElements.getListElements(requirementses, groups, classroom, Elements, flows);
+                sortByS(Elements);
                 doSchedule();
+                R = R / 1344;
                 try {
                     printElements();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
                 label.setText("Расписание готово");
+                label1.setText("Качество расписания: " + String.format("%.2f", R));
             }
         });
+        panel.add(label);
+        panel.add(lbl);
         panel.add(button);
+        panel.add(lbl1);
         panel.add(button1);
+        panel.add(lbl2);
+        panel.add(label1);
         panel.add(Box.createVerticalGlue());
-
 
         getContentPane().add(panel);
 
-        setPreferredSize(new Dimension(260, 220));
+        setPreferredSize(new Dimension(400, 400));
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -167,16 +202,16 @@ public class Main extends JFrame{
 //        classroom.add(new Classroom(2, 305));
 //        classroom.add(new Classroom(2, 306));
 //
-//        SetListClasses.getListClasses(requirementses, groups, classroom, listClasses, flows);
+//        SetListElements.getListClasses(requirementses, groups, classroom, listClasses, flows);
 //        sortByS(listClasses);
 //        doSchedule();
 //        printElements();
     }
 
     private static void doSchedule() {
-        double k = 0, t = 0, R = 0;
+        double k = 0, t = 0;
         int checkLoad, countInWeek, countInDay;
-        for (ListClasses list : listClasses) {
+        for (Element e : Elements) {
             boolean equals = false;
             countInDay = 0;
             countInWeek = 0;
@@ -195,10 +230,10 @@ public class Main extends JFrame{
                     если нагрузка 1 раз в две недеи (не знаю как это показать), тогда один раз будет в одной неделе
                      а нагрузка 2 раза в неделю - ставим подряд
                     * */
-                    if (thisIsHalfLoad(list.getElement(), listClasses)) {
+                    if (thisIsHalfLoad(e)) {
                         checkLoad = 50;
                     } else {
-                        checkLoad = countLoad(list.getElement(), listClasses);
+                        checkLoad = countLoad(e, Elements);
                     }
                     if (element.isEmpty()) {
                         switch (checkLoad) {
@@ -207,7 +242,7 @@ public class Main extends JFrame{
                                 countInWeek = 2;
                                 break;
                             case 2:
-                                if (list.getElement().getTypeSubject() == 0) {
+                                if (e.getTypeSubject() == TypeSubject.LECTURE) {
                                     countInDay = 1;
                                     countInWeek = 2;
                                 } else {
@@ -216,7 +251,7 @@ public class Main extends JFrame{
                                 }
                                 break;
                             case 1:
-                                if (list.getElement().getTypeSubject() == 0) {
+                                if (e.getTypeSubject() == TypeSubject.LECTURE) {
                                     countInDay = 1;
                                     countInWeek = 2;
                                 } else {
@@ -230,7 +265,7 @@ public class Main extends JFrame{
                                 break;
                         }
                     } else {
-                        if (element.contains(list.getElement())) {
+                        if (element.contains(e)) {
                             switch (checkLoad) {
                                 case 3:
                                     countInDay = 1;
@@ -255,7 +290,7 @@ public class Main extends JFrame{
                     for (int h = 0; h < classroom.size(); h++) {
                         if (!element.isEmpty()) {
                             for (Element element1 : element) {
-                                k = checkOverlap(element1, list.getElement(), classroom.get(h));
+                                k = checkOverlap(element1, e, classroom.get(h));
                                 if (k == 0 || k == 1) {
                                     break;
                                 }
@@ -264,21 +299,21 @@ public class Main extends JFrame{
                         if (k == 0) break;
                         if (k == 1) continue;
 
-                        if (classroom.get(h).getNumberHull() != list.getElement().getClassroom().getNumberHull()) {
+                        if (classroom.get(h).getNumberHull() != e.getClassroom().getNumberHull()) {
                             continue;
                         }
-                        t = checkAud(classroom.get(h), list.getElement());
+                        t = checkAud(classroom.get(h), e);
                         if (t == 0) continue;
 
                         k = k + t;
-                        double t1 = checkWindowForStudens(n, i, list.getElement());
+                        double t1 = checkWindowForStudens(n, i, e);
 //                        k = k + t;
-                        double t2 = checkWindowForTeachers(n, i, list.getElement());
+                        double t2 = checkWindowForTeachers(n, i,e);
 //                        if (t1 != t2)
                         k = k + t1 + t2;
-                        t = countClassesForFlow(n, list.getElement().getFlow());
+                        t = countClassesForFlow(n, e.getFlow());
                         k = k + t;
-                        tempElems.add(new TempElem(k, new Element(list.getElement().getTeacher(), classroom.get(h), list.getElement().getSubject(), list.getElement().getGroup(), list.getElement().getTypeSubject()), i, n));
+                        tempElems.add(new TempElem(k, new Element(e.getTeacher(), classroom.get(h), e.getSubject(), e.getGroup(), e.getTypeSubject()), i, n));
                     }
                 }
                 if (equals) break;
@@ -302,42 +337,39 @@ public class Main extends JFrame{
                         elem.put(new Timeslot(tempElems.get(0).getN(), tempElems.get(0).getI() + 1), tempElems.get(0).getElement());
                     }
                 }
-                // System.out.println(tempElems.get(0).getN() + " " + tempElems.get(0).getI() + " " + tempElems.get(0).getElement().toString());
-
+                R += tempElems.get(0).getR();
             }
         }
     }
-    private static boolean thisIsHalfLoad(Element element1, List<ListClasses> listClasses) {
+    private static boolean thisIsHalfLoad(Element element1) {
 
         for (Load loads : groups) {
-            for (ListClasses listClasses1 : listClasses) {
-                if (loads.getFlow() == listClasses1.getElement().getFlow() && loads.getTeacher() == listClasses1.getElement().getTeacher()
-                        && loads.getSubject() == listClasses1.getElement().getSubject() && loads.getTypeSubject() == listClasses1.getElement().getTypeSubject()) {
-                    if (loads.getLoad() == 0.5) {
-                        return true;
-                    }
+            if (loads.getFlow() == element1.getFlow() && loads.getTeacher().equals(element1.getTeacher())
+                    && loads.getSubject().equals(element1.getSubject()) && loads.getTypeSubject() == element1.getTypeSubject()) {
+                if (loads.getLoad() == 0.5) {
+                    return true;
                 }
             }
         }
         return false;
     }
-    private static int countLoad(Element element1, List<ListClasses> listClasses) {
+    private static int countLoad(Element element1, List<Element> Elements) {
         int i = 0;
-        for (ListClasses listClasses1 : listClasses) {
-            if (listClasses1.getElement().equals(element1)) i++;
+        for (Element listClasses1 : Elements) {
+            if (listClasses1.equals(element1)) i++;
         }
         return i;
     }
 
-    /*Проверка "перекрытия": если в это же время и этот же день уже заняты
-            преподаватель или группа, тогда возвращаем ноль и прекращаем рассматривать эту аудиторию*/
-// добавить возможность не рассматривать остальные аудитории, если вернет 0
+    /* Проверка "перекрытия": если в это же время и этот же день уже заняты
+     * преподаватель или группа, тогда возвращаем ноль и прекращаем рассматривать эту аудиторию
+     */
     private static double checkOverlap(Element element, Element elementList, Classroom classroom) {
         int w = 10;
         if (element != null) {
             if (element.getTeacher().equals(elementList.getTeacher())) {
                 return 0;
-            } else if (checkGroup(element.getFlow(), elementList.getFlow())) { //element.getGroup().equals(elementList.getGroup())) {
+            } else if (checkGroup(element.getFlow(), elementList.getFlow())) {
                 return 0;
             } else if (element.getClassroom().getNumberClassroom() == classroom.getNumberClassroom()) {
                 return 1;
@@ -348,20 +380,20 @@ public class Main extends JFrame{
     private static double checkAud(Classroom classroom, Element listElement) {
         int w = 10;
         double ret = 0;
-        if (listElement.getClassroom().getTypeClassroom() == 0) {
-            if (classroom.getTypeClassroom() == 4 || classroom.getTypeClassroom() == 0) {
+        if (listElement.getClassroom().getTypeClassroom() == TypeClassroom.ORDINARY_CLASS) {
+            if (classroom.getTypeClassroom() == TypeClassroom.CLASS_WITH_PROJECTOR || classroom.getTypeClassroom() == TypeClassroom.ORDINARY_CLASS) {
                 ret = checkCapacity(classroom, listElement.getFlow()) * w;
             }
-        } else if (listElement.getClassroom().getTypeClassroom() == 2) {
-            if (classroom.getTypeClassroom() == 2 || classroom.getTypeClassroom() == 24) {
+        } else if (listElement.getClassroom().getTypeClassroom() == TypeClassroom.COMPUTER_CLASS) {
+            if (classroom.getTypeClassroom() == TypeClassroom.COMPUTER_CLASS || classroom.getTypeClassroom() == TypeClassroom.COMPUTER_CLASS_WITH_PROJECTOR) {
                 ret = checkCapacity(classroom, listElement.getFlow()) * w;
             }
-        } else if (listElement.getClassroom().getTypeClassroom() == 4) {
-            if (classroom.getTypeClassroom() == 4) {
+        } else if (listElement.getClassroom().getTypeClassroom() == TypeClassroom.CLASS_WITH_PROJECTOR) {
+            if (classroom.getTypeClassroom() == TypeClassroom.COMPUTER_CLASS_WITH_PROJECTOR || classroom.getTypeClassroom() == TypeClassroom.CLASS_WITH_PROJECTOR) {
                 ret = checkCapacity(classroom, listElement.getFlow()) * w;
             }
-        } else if (listElement.getClassroom().getTypeClassroom() == 24) {
-            if (classroom.getTypeClassroom() == 24) {
+        } else if (listElement.getClassroom().getTypeClassroom() == TypeClassroom.COMPUTER_CLASS_WITH_PROJECTOR) {
+            if (classroom.getTypeClassroom() == TypeClassroom.COMPUTER_CLASS_WITH_PROJECTOR) {
                 ret = checkCapacity(classroom, listElement.getFlow()) * w;
             }
         }
@@ -476,7 +508,7 @@ public class Main extends JFrame{
                         Cell name = row.createCell(0);
                         name.setCellValue(i - 1);
                         name = row.createCell(q);
-                        name.setCellValue(element.get(h).getSubject());
+                        name.setCellValue(element.get(h).getSubject() +" ("+ getTypeSub(element.get(h).getTypeSubject())+")");
                         name = row.createCell(q+1);
                         name.setCellValue(str);
                         name = row.createCell(q+2);
@@ -491,6 +523,14 @@ public class Main extends JFrame{
         }
         book.write(new FileOutputStream(file));
         book.close();
+    }
+
+    private static String getTypeSub(TypeSubject typeSubject) {
+        if (typeSubject == TypeSubject.LECTURE){
+            return "лек";
+        }else if (typeSubject == TypeSubject.PRACTICE){
+            return "прак";
+        }else return "лаб";
     }
 
     private static String countgroup(int flow) {
@@ -679,13 +719,13 @@ public class Main extends JFrame{
         }
         return k * w;
     }
-    private static void sortByS(List<ListClasses> listClasses) {
-        for (int i = listClasses.size() - 1; i >= 0; i--) {
+    private static void sortByS(List<Element> e) {
+        for (int i = e.size() - 1; i >= 0; i--) {
             for (int j = 0; j < i; j++) {
-                if (listClasses.get(j).getS() > listClasses.get(j + 1).getS()) {
-                    ListClasses t = listClasses.get(j);
-                    listClasses.set(j, listClasses.get(j + 1));
-                    listClasses.set(j + 1, t);
+                if (e.get(j).getS() > e.get(j + 1).getS()) {
+                    Element t = e.get(j);
+                    e.set(j, e.get(j + 1));
+                    e.set(j + 1, t);
                 }
             }
         }

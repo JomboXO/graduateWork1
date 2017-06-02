@@ -1,17 +1,17 @@
 package Entities;
 
 /**
- * Created by ������� on 05.04.2017.
+ * Created by ������� on 13.05.2017.
  */
 public class Load {
     private String subject;
     private int flow; // номер потока
     private double load; //количество занятий в неделю
-    private int typeSubject; // 0 - лекция ; 1 - практика, 2 - lab
+    private TypeSubject typeSubject; // 0 - лекция ; 1 - практика, 2 - lab
     private String teacher;
     // private Requirements requirment; //проектор, лекционная аудитория, компьютерный класс, лаборатория...
 
-    public Load(String subject, int flow, double load, int typeSubject, String teacher) {
+    public Load(String subject, int flow, double load, TypeSubject typeSubject, String teacher) {
         this.subject = subject;
         this.flow = flow;
         this.load = load;
@@ -44,11 +44,11 @@ public class Load {
         this.load = load;
     }
 
-    public int getTypeSubject() {
+    public TypeSubject getTypeSubject() {
         return typeSubject;
     }
 
-    public void setTypeSubject(int typeSubject) {
+    public void setTypeSubject(TypeSubject typeSubject) {
         this.typeSubject = typeSubject;
     }
 
@@ -71,4 +71,3 @@ public class Load {
                 '}';
     }
 }
-

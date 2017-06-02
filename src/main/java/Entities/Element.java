@@ -8,22 +8,30 @@ public class Element {
     private Classroom classroom;
     private String subject;
     private int flow;
-    private int typeSubject;
+    private TypeSubject typeSubject;
+    private double S;
 
-    public Element(String teacher, Classroom classroom, String subject, int flow, int typeSubject) {
+    public Element(String teacher, Classroom classroom, String subject, int flow, TypeSubject typeSubject) {
         this.teacher = teacher;
         this.classroom = classroom;
         this.subject = subject;
         this.flow = flow;
         this.typeSubject = typeSubject;
     }
+    public Element(String teacher, Classroom classroom, String subject, int flow, TypeSubject typeSubject, double s) {
+        this.teacher = teacher;
+        this.classroom = classroom;
+        this.subject = subject;
+        this.flow = flow;
+        this.typeSubject = typeSubject;
+        S = s;
+    }
 
-
-    public int getTypeSubject() {
+    public TypeSubject getTypeSubject() {
         return typeSubject;
     }
 
-    public void setTypeSubject(int typeSubject) {
+    public void setTypeSubject(TypeSubject typeSubject) {
         this.typeSubject = typeSubject;
     }
 
@@ -92,5 +100,13 @@ public class Element {
 
     public void setFlow(int flow) {
         this.flow = flow;
+    }
+
+    public double getS() {
+        return S;
+    }
+
+    public void setS(double s) {
+        S = s;
     }
 }

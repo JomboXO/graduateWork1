@@ -1,7 +1,4 @@
-
-import Entities.Flow;
-import Entities.Group;
-import Entities.Load;
+import Entities.*;
 import com.sun.prism.shader.AlphaOne_LinearGradient_AlphaTest_Loader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -56,7 +53,7 @@ public class XMLParser {
                         for (int f = 0; f < gr.getLength(); f++) {
                             Node nnn = gr.item(f);
                             Element e = (Element) nnn;
-                            String ss = e.getAttribute("people");
+                            int ss =Integer.parseInt(e.getAttribute("people"));
                             Group group = new Group(element1.getElementsByTagName("group").item(f).getTextContent(), ss);
                             n.add(group);
                         }
@@ -87,7 +84,7 @@ public class XMLParser {
                                     for (int f = 0; f < gr.getLength(); f++) {
                                         Node nnn = gr.item(f);
                                         Element e = (Element) nnn;
-                                        String ss = e.getAttribute("people");
+                                        int ss =Integer.parseInt(e.getAttribute("people"));
                                         Group group = new Group(element1.getElementsByTagName("group").item(f).getTextContent(), ss);
                                         n.add(group);
                                     }
@@ -98,7 +95,7 @@ public class XMLParser {
                             hoursPracTeacher = Integer.parseInt(element.getElementsByTagName("practice").item(k).getTextContent());
                             numberFlowForTeacher = SetFlow(n, flows);
                             if (hoursLecTeacher != 0) {
-                                groups.add(new Load(subject, numberFlowForTeacher, getHours(hoursLec), 0, teacher));
+                                groups.add(new Load(subject, numberFlowForTeacher, getHours(hoursLec), TypeSubject.LECTURE, teacher));
                             }
                             if (hoursLabTeacher != 0) {
                                 boolean bol = false;
@@ -108,8 +105,9 @@ public class XMLParser {
                                             List<Group> gr = new ArrayList<>();
                                             gr.add(group);
                                             numFlow = SetFlow(gr, flows);
-                                            groups.add(new Load(subject, numFlow, getHours(hoursLab), 2, teacher));
+                                            groups.add(new Load(subject, numFlow, getHours(hoursLab), TypeSubject.LAB, teacher));
                                         }
+                                        bol = false;
                                         break;
                                     }
                                     else if(hoursLab == hoursLabTeacher){
@@ -117,7 +115,7 @@ public class XMLParser {
                                     }
                                 }
                                 if (bol){
-                                    groups.add(new Load(subject, numberFlowForTeacher, getHours(hoursLab), 2, teacher));
+                                    groups.add(new Load(subject, numberFlowForTeacher, getHours(hoursLab), TypeSubject.LAB, teacher));
                                 }
                             }
                             if (hoursPracTeacher != 0) {
@@ -128,8 +126,9 @@ public class XMLParser {
                                             List<Group> gr = new ArrayList<>();
                                             gr.add(group);
                                             numFlow = SetFlow(gr, flows);
-                                            groups.add(new Load(subject, numFlow, getHours(hoursPrac), 1, teacher));
+                                            groups.add(new Load(subject, numFlow, getHours(hoursPrac), TypeSubject.PRACTICE, teacher));
                                         }
+                                        bol = false;
                                         break;
                                     }
                                     else if(hoursPrac == hoursPracTeacher){
@@ -137,7 +136,7 @@ public class XMLParser {
                                     }
                                 }
                                 if (bol){
-                                    groups.add(new Load(subject, numberFlowForTeacher, getHours(hoursLab), 1, teacher));
+                                    groups.add(new Load(subject, numberFlowForTeacher, getHours(hoursPrac), TypeSubject.PRACTICE, teacher));
                                 }
                             }
                         }
@@ -181,12 +180,12 @@ public class XMLParser {
     }
 
     private static double getHours(int hours) {
-        double h = 0;
+        double h = 1;
         if (hours > 0 && hours <= 9) {
             h = 0.5;
-        } else if (hours > 10 && hours <= 18) {
+        } else if (hours >= 10 && hours <= 20) {
             h = 1;
-        } else if (hours > 30 && hours < 36) {
+        } else if (hours > 20 && hours < 36) {
             h = 2;
         } else if (hours > 50) h = 3;
         return h;
@@ -218,7 +217,7 @@ public class XMLParser {
     private static int countPeopleInFlow(List<Group> nn) {
         int ret = 0;
         for (Group group : nn){
-            ret = ret + Integer.parseInt(group.getCountPeople());
+            ret = ret + group.getCountPeople();
         }
         return ret;
     }

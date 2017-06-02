@@ -33,8 +33,8 @@
         <teachers>
             <teacher name="Кудашов В.Н.">
                 <groups>
-                    <group people="15">T3135</group>
-                    <group people="15">T3137</group>
+                    <group people="6">T3135</group>
+                    <group people="6">T3137</group>
                 </groups>
                 <lecture>16</lecture>
                 <practice>0</practice>
@@ -197,4 +197,280 @@
             </teacher>
         </teachers>
     </subject>
+    <subject name="Вычислительная математика">
+        <groups>
+            <group people="18">P3200</group>
+            <group people="18">P3201</group>
+            <group people="18">P3202</group>
+        </groups>
+        <hoursLec>17</hoursLec>
+        <hoursLab>17</hoursLab>
+        <hoursPrac>0</hoursPrac>
+        <teachers>
+            <teacher name="Кучер А.В.">
+                <groups>
+                    <group people="18">P3200</group>
+                    <group people="18">P3201</group>
+                    <group people="18">P3202</group>
+                </groups>
+                <lecture>17</lecture>
+                <practice>0</practice>
+                <lab>0</lab>
+            </teacher>
+            <teacher name="Исаев И.В.">
+                <groups>
+                    <group people="18">P3200</group>
+                    <group people="18">P3201</group>
+                    <group people="18">P3202</group>
+                </groups>
+                <lecture>0</lecture>
+                <practice>0</practice>
+                <lab>51</lab>
+            </teacher>
+        </teachers>
+    </subject>
+    <subject name="Вычислительная математика">
+        <groups>
+            <group people="19">P3210</group>
+            <group people="19">P3211</group>
+            <group people="19">P3217</group>
+            <group people="19">P3218</group>
+        </groups>
+        <hoursLec>17</hoursLec>
+        <hoursLab>17</hoursLab>
+        <hoursPrac>0</hoursPrac>
+        <teachers>
+            <teacher name="Кучер А.В.">
+                <groups>
+                    <group people="19">P3210</group>
+                    <group people="19">P3211</group>
+                    <group people="19">P3217</group>
+                    <group people="19">P3218</group>
+                </groups>
+                <lecture>17</lecture>
+                <practice>0</practice>
+                <lab>0</lab>
+            </teacher>
+            <teacher name="Петрова М.М.">
+                <groups>
+                    <group people="19">P3211</group>
+                    <group people="19">P3217</group>
+                    <group people="19">P3218</group>
+                </groups>
+                <lecture>0</lecture>
+                <practice>0</practice>
+                <lab>51</lab>
+            </teacher>
+            <teacher name="Исаев И.В.">
+                <groups>
+                    <group people="19">P3210</group>
+                </groups>
+                <lecture>0</lecture>
+                <practice>0</practice>
+                <lab>17</lab>
+            </teacher>
+        </teachers>
+    </subject>
+    <!--<subject name="Дискретная математика">-->
+        <!--<groups>-->
+            <!--<group people="16">P3235</group>-->
+        <!--</groups>-->
+        <!--<hoursLec>17</hoursLec>-->
+        <!--<hoursLab>34</hoursLab>-->
+        <!--<hoursPrac>0</hoursPrac>-->
+        <!--<teachers>-->
+            <!--<teacher name="Симоненко З.Г.">-->
+                <!--<groups>-->
+                    <!--<group people="16">P3235</group>-->
+                <!--</groups>-->
+                <!--<lecture>17</lecture>-->
+                <!--<practice>0</practice>-->
+                <!--<lab>34</lab>-->
+            <!--</teacher>-->
+        <!--</teachers>-->
+    <!--</subject>-->
+    <!--<subject name="Дискретная математика">-->
+        <!--<groups>-->
+            <!--<group people="8">P3242</group>-->
+        <!--</groups>-->
+        <!--<hoursLec>17</hoursLec>-->
+        <!--<hoursLab>34</hoursLab>-->
+        <!--<hoursPrac>0</hoursPrac>-->
+        <!--<teachers>-->
+            <!--<teacher name="Симоненко З.Г.">-->
+                <!--<groups>-->
+                    <!--<group people="8">P3242</group>-->
+                <!--</groups>-->
+                <!--<lecture>17</lecture>-->
+                <!--<practice>0</practice>-->
+                <!--<lab>34</lab>-->
+            <!--</teacher>-->
+        <!--</teachers>-->
+    <!--</subject>-->
+    <!--&lt;!&ndash;<subject name="Системное программное обеспечение">&ndash;&gt;-->
+    <!--&lt;!&ndash;<groups>&ndash;&gt;-->
+    <!--&lt;!&ndash;<group people="11">P3217</group>&ndash;&gt;-->
+    <!--&lt;!&ndash;<group people="11">P3218</group>&ndash;&gt;-->
+    <!--&lt;!&ndash;</groups>&ndash;&gt;-->
+    <!--&lt;!&ndash;<hoursLec>34</hoursLec>&ndash;&gt;-->
+    <!--&lt;!&ndash;<hoursLab>34</hoursLab>&ndash;&gt;-->
+    <!--&lt;!&ndash;<hoursPrac>0</hoursPrac>&ndash;&gt;-->
+    <!--&lt;!&ndash;<teachers>&ndash;&gt;-->
+    <!--&lt;!&ndash;<teacher name="Зыков А.Г.">&ndash;&gt;-->
+    <!--&lt;!&ndash;<groups>&ndash;&gt;-->
+    <!--&lt;!&ndash;<group people="11">P3217</group>&ndash;&gt;-->
+    <!--&lt;!&ndash;<group people="11">P3218</group>&ndash;&gt;-->
+    <!--&lt;!&ndash;</groups>&ndash;&gt;-->
+    <!--&lt;!&ndash;<lecture>34</lecture>&ndash;&gt;-->
+    <!--&lt;!&ndash;<practice>0</practice>&ndash;&gt;-->
+    <!--&lt;!&ndash;<lab>102</lab>&ndash;&gt;-->
+    <!--&lt;!&ndash;</teacher>&ndash;&gt;-->
+    <!--&lt;!&ndash;</teachers>&ndash;&gt;-->
+    <!--&lt;!&ndash;</subject>&ndash;&gt;-->
+    <!--&lt;!&ndash;<subject name="Языки системного программирования">&ndash;&gt;-->
+    <!--&lt;!&ndash;<groups>&ndash;&gt;-->
+    <!--&lt;!&ndash;<group people="11">P3217</group>&ndash;&gt;-->
+    <!--&lt;!&ndash;<group people="11">P3218</group>&ndash;&gt;-->
+    <!--&lt;!&ndash;</groups>&ndash;&gt;-->
+    <!--&lt;!&ndash;<hoursLec>17</hoursLec>&ndash;&gt;-->
+    <!--&lt;!&ndash;<hoursLab>34</hoursLab>&ndash;&gt;-->
+    <!--&lt;!&ndash;<hoursPrac>0</hoursPrac>&ndash;&gt;-->
+    <!--&lt;!&ndash;<teachers>&ndash;&gt;-->
+    <!--&lt;!&ndash;<teacher name="Зыков А.Г.">&ndash;&gt;-->
+    <!--&lt;!&ndash;<groups>&ndash;&gt;-->
+    <!--&lt;!&ndash;<group people="11">P3217</group>&ndash;&gt;-->
+    <!--&lt;!&ndash;<group people="11">P3218</group>&ndash;&gt;-->
+    <!--&lt;!&ndash;</groups>&ndash;&gt;-->
+    <!--&lt;!&ndash;<lecture>17</lecture>&ndash;&gt;-->
+    <!--&lt;!&ndash;<practice>0</practice>&ndash;&gt;-->
+    <!--&lt;!&ndash;<lab>102</lab>&ndash;&gt;-->
+    <!--&lt;!&ndash;</teacher>&ndash;&gt;-->
+    <!--&lt;!&ndash;</teachers>&ndash;&gt;-->
+    <!--&lt;!&ndash;</subject>&ndash;&gt;-->
+    <!--<subject name="Дискретная математика">-->
+        <!--<groups>-->
+            <!--<group people="14">P3370</group>-->
+            <!--<group people="14">P3371</group>-->
+        <!--</groups>-->
+        <!--<hoursLec>17</hoursLec>-->
+        <!--<hoursLab>0</hoursLab>-->
+        <!--<hoursPrac>17</hoursPrac>-->
+        <!--<teachers>-->
+            <!--<teacher name="Симоненко З.Г.">-->
+                <!--<groups>-->
+                    <!--<group people="14">P3370</group>-->
+                    <!--<group people="14">P3371</group>-->
+                <!--</groups>-->
+                <!--<lecture>17</lecture>-->
+                <!--<practice>34</practice>-->
+                <!--<lab>0</lab>-->
+            <!--</teacher>-->
+        <!--</teachers>-->
+    <!--</subject>-->
+    <!--<subject name="Мировые информационные ресурсы">-->
+        <!--<groups>-->
+            <!--<group people="5">X3307</group>-->
+        <!--</groups>-->
+        <!--<hoursLec>6</hoursLec>-->
+        <!--<hoursLab>10</hoursLab>-->
+        <!--<hoursPrac>0</hoursPrac>-->
+        <!--<teachers>-->
+            <!--<teacher name="Селина Е.Г.">-->
+                <!--<groups>-->
+                    <!--<group people="5">X3307</group>-->
+                <!--</groups>-->
+                <!--<lecture>6</lecture>-->
+                <!--<practice>0</practice>-->
+                <!--<lab>10</lab>-->
+            <!--</teacher>-->
+        <!--</teachers>-->
+    <!--</subject>-->
+    <!--<subject name="Операционные системы">-->
+        <!--<groups>-->
+            <!--<group people="16">P3317</group>-->
+            <!--<group people="17">P3318</group>-->
+        <!--</groups>-->
+        <!--<hoursLec>34</hoursLec>-->
+        <!--<hoursLab>17</hoursLab>-->
+        <!--<hoursPrac>0</hoursPrac>-->
+        <!--<teachers>-->
+            <!--<teacher name="Лаздин А.В.">-->
+                <!--<groups>-->
+                    <!--<group people="16">P3317</group>-->
+                    <!--<group people="17">P3318</group>-->
+                <!--</groups>-->
+                <!--<lecture>34</lecture>-->
+                <!--<practice>0</practice>-->
+                <!--<lab>34</lab>-->
+            <!--</teacher>-->
+        <!--</teachers>-->
+    <!--</subject>-->
+    <!--<subject name="Проектирование человеко-машинного интерфейса">-->
+        <!--<groups>-->
+            <!--<group people="15">P3310</group>-->
+            <!--<group people="15">P3311</group>-->
+            <!--<group people="15">P3317</group>-->
+            <!--<group people="15">P3318</group>-->
+        <!--</groups>-->
+        <!--<hoursLec>17</hoursLec>-->
+        <!--<hoursLab>34</hoursLab>-->
+        <!--<hoursPrac>0</hoursPrac>-->
+        <!--<teachers>-->
+            <!--<teacher name="Зинчик А.А.">-->
+                <!--<groups>-->
+                    <!--<group people="15">P3310</group>-->
+                    <!--<group people="15">P3311</group>-->
+                    <!--<group people="15">P3317</group>-->
+                    <!--<group people="15">P3318</group>-->
+                <!--</groups>-->
+                <!--<lecture>17</lecture>-->
+                <!--<practice>0</practice>-->
+                <!--<lab>136</lab>-->
+            <!--</teacher>-->
+        <!--</teachers>-->
+    <!--</subject>-->
+    <!--<subject name="Интеллектуальные системы и технологии">-->
+        <!--<groups>-->
+            <!--<group people="20">K3440</group>-->
+        <!--</groups>-->
+        <!--<hoursLec>17</hoursLec>-->
+        <!--<hoursLab>17</hoursLab>-->
+        <!--<hoursPrac>0</hoursPrac>-->
+        <!--<teachers>-->
+            <!--<teacher name="Жукова Н.А.">-->
+                <!--<groups>-->
+                    <!--<group people="20">K3440</group>-->
+                <!--</groups>-->
+                <!--<lecture>17</lecture>-->
+                <!--<practice>0</practice>-->
+                <!--<lab>17</lab>-->
+            <!--</teacher>-->
+        <!--</teachers>-->
+    <!--</subject>-->
+    <!--<subject name="Технологии программирования">-->
+        <!--<groups>-->
+            <!--<group people="11">P3417</group>-->
+        <!--</groups>-->
+        <!--<hoursLec>17</hoursLec>-->
+        <!--<hoursLab>34</hoursLab>-->
+        <!--<hoursPrac>0</hoursPrac>-->
+        <!--<teachers>-->
+            <!--<teacher name="Зинчик А.А.">-->
+                <!--<groups>-->
+                    <!--<group people="11">P3417</group>-->
+                <!--</groups>-->
+                <!--<lecture>17</lecture>-->
+                <!--<practice>0</practice>-->
+                <!--<lab>0</lab>-->
+            <!--</teacher>-->
+            <!--<teacher name="Лабода Ю.А.">-->
+                <!--<groups>-->
+                    <!--<group people="11">P3417</group>-->
+                <!--</groups>-->
+                <!--<lecture>0</lecture>-->
+                <!--<practice>0</practice>-->
+                <!--<lab>34</lab>-->
+            <!--</teacher>-->
+        <!--</teachers>-->
+    <!--</subject>-->
 </loads>

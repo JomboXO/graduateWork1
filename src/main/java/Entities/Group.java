@@ -5,9 +5,9 @@ package Entities;
  */
 public class Group {
     private String group;
-    private String countPeople;
+    private int countPeople;
 
-    public Group(String group, String countPeople) {
+    public Group(String group, int countPeople) {
         this.countPeople = countPeople;
         this.group = group;
     }
@@ -46,11 +46,11 @@ public class Group {
         return group;
     }
 
-    public String getCountPeople() {
+    public int getCountPeople() {
         return countPeople;
     }
 
-    public void setCountPeople(String countPeople) {
+    public void setCountPeople(int countPeople) {
         this.countPeople = countPeople;
     }
 }

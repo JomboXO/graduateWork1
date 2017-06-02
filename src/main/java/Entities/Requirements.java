@@ -1,19 +1,19 @@
 package Entities;
 
 /**
- * Created by ������� on 05.04.2017.
+ * Created by ������� on 13.05.2017.
  */
 public class Requirements {
     private String subject;
-    private int typeSubject; // 0 - lecture; 1 - practice 2- lab
-    private int requirment;  // 1 - lecture class; 2 computer class; 3 practice class; 4 - проектор; 13 - no requirment
-    private int numberHull; //0 - главный корпус, кронверский, 1 - ломоносова, 2 - гривцова, 3 - биржевая
+    private TypeSubject typeSubject; // 0 - lecture; 1 - practice 2- lab
+    private TypeClassroom requiredClass;  // 1 - lecture class; 2 computer class; 3 practice class; 4 - проектор; 13 - no requiredClass
+    private Hull hull; //0 - главный корпус, кронверский, 1 - ломоносова, 2 - гривцова, 3 - биржевая
 
-    public Requirements(String subject, /*String teacher,*/ int typeSubject, int requirment, int numberHull) {
+    public Requirements(String subject, /*String teacher,*/ TypeSubject typeSubject, TypeClassroom requiredClass, Hull hull) {
         this.subject = subject;
         this.typeSubject = typeSubject;
-        this.requirment = requirment;
-        this.numberHull = numberHull;
+        this.requiredClass = requiredClass;
+        this.hull = hull;
     }
 
     public String getSubject() {
@@ -32,27 +32,27 @@ public class Requirements {
 //        this.teacher = teacher;
 //    }
 
-    public int getTypeSubject() {
+    public TypeSubject getTypeSubject() {
         return typeSubject;
     }
 
-    public void setTypeSubject(int typeSubject) {
+    public void setTypeSubject(TypeSubject typeSubject) {
         this.typeSubject = typeSubject;
     }
 
-    public int getRequirment() {
-        return requirment;
+    public TypeClassroom getRequiredClass() {
+        return requiredClass;
     }
 
-    public void setRequirment(int requirment) {
-        this.requirment = requirment;
+    public void setRequiredClass(TypeClassroom requiredClass) {
+        this.requiredClass = requiredClass;
     }
 
-    public int getNumberHull() {
-        return numberHull;
+    public Hull getNumberHull() {
+        return hull;
     }
 
-    public void setNumberHull(int numberHull) {
-        this.numberHull = numberHull;
+    public void setNumberHull(Hull hull) {
+        this.hull = hull;
     }
 }
