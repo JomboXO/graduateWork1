@@ -20,13 +20,13 @@ import java.util.List;
 public class Main extends JFrame{
 
 
-    private static List<Load> groups= new ArrayList<>();;
-    private static List<Flow> flows = new ArrayList<>();;
-    private static List<Requirements> requirementses = new ArrayList<Requirements>();;
-    private static List<Classroom> classroom = new ArrayList<Classroom>();;
-    private static List<Element> Elements = new ArrayList<Element>();;
+    private static List<Load> groups= new ArrayList<>();
+    private static List<Flow> flows = new ArrayList<>();
+    private static List<Requirements> requirementses = new ArrayList<Requirements>();
+    private static List<Classroom> classroom = new ArrayList<Classroom>();
+    private static List<Element> Elements = new ArrayList<Element>();
     private static Map<Timeslot, Element> elem = new HashMap<Timeslot, Element>();
-    private static List<TempElem> tempElems = new ArrayList<TempElem>();;
+    private static List<TempElem> tempElems = new ArrayList<TempElem>();
     private final static int p = 8, l = 12;
     private JButton getFile;
     private static File file;
@@ -141,6 +141,7 @@ public class Main extends JFrame{
                 }
                 label.setText("Расписание готово");
                 label1.setText("Качество расписания: " + String.format("%.2f", R));
+                button1.setEnabled(false);
             }
         });
         panel.add(label);
@@ -164,7 +165,7 @@ public class Main extends JFrame{
     /* Изначально, на вход подаем только нагрузку для учеников
      * Данные по аудиториям и преподавателей уже в системе
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
 
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -209,13 +210,12 @@ public class Main extends JFrame{
     }
 
     private static void doSchedule() {
-        double k = 0, t = 0;
+        double k = 0, t;
         int checkLoad, countInWeek, countInDay;
         for (Element e : Elements) {
             boolean equals = false;
             countInDay = 0;
             countInWeek = 0;
-            checkLoad = 0;
             tempElems.clear();
             List<Element> element = new ArrayList<>();
             Timeslot key;
@@ -442,13 +442,13 @@ public class Main extends JFrame{
         List<Element> element = new ArrayList<>();
         Timeslot key;
 
-        File file = new File("C://schedule.xls");
+        File file = new File("schedule.xls");
         Workbook book = new HSSFWorkbook();
         Sheet sheet = book.createSheet("Schedule");
         Row row1 = sheet.createRow(0);
         row1.createCell(0).setCellValue("");
         CellRangeAddress region;
-        int k = 0, t = 0;
+        int k = 0, t;
         for (int i = 0; i < 12; i++){
             t = k+1;
             k = t+3;
