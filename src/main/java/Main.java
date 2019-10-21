@@ -44,10 +44,6 @@ public class Main extends JFrame{
         System.out.println("ЧТО-ТО ТЕСТОВОЕ");
         System.out.println("ЧТО-ТО ТЕСТОВОЕ");
         System.out.println("ЧТО-ТО ТЕСТОВОЕ");
-        System.out.println("ЧТО-ТО ТЕСТОВОЕ");
-        System.out.println("ЧТО-ТО ТЕСТОВОЕ");
-        System.out.println("ЧТО-ТО ТЕСТОВОЕ");
-        System.out.println("ЧТО-ТО ТЕСТОВОЕ");
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
