@@ -37,7 +37,7 @@ public class Main extends JFrame{
         super("Schedule"); //Заголовок окна
         setBounds(100, 100, 200, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        System.out.println("ЧТО-ТО ТЕСТОВОЕ");
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
